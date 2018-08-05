@@ -1,7 +1,7 @@
 const elasticsearch = require('elasticsearch');
 const es = elasticsearch.Client({
     host: 'localhost:9200',
-    log: 'trace'
+    // log: 'trace'
 })
 
 // TODO externalise to a config
@@ -46,10 +46,15 @@ const products = (req, res) => {
         .then(hits => {
             let data = [];
             hits.suggest.nameSuggester[0].options.forEach(element => {
-                data.push(element.text);
+                // data.push(element.text);
+                data.push({
+                    name: element.text,
+                    image: element._source.image,
+                    price: element._source.price
+                });
             });
-            console.log(data);
-            return res.json({message: 'i am here now'});
+            console.log(`${data.length} results extracted for the term "${txt}"`);
+            return res.json(data);
         });
 };
 
