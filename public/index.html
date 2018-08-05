@@ -69,13 +69,17 @@
   },
   source: function(query, syncResults, asyncResults) {
       term = query;
-      $.get('/api/acbuff?txt=' + query, function(data) {
+      $.get({
+          url: '/api/acbuff?txt=' + query
+        }, function(data) {
         protobuf.load('/js/product.proto', function(err,root) {
             if (err) {
                 console.log(err);
             }
             var Products = root.lookupType('AC.Products');
-            Products.decode(data);
+            console.log(Products.decode(data.data).products);
+            asyncResults(Products.decode(data.data).products);
+
         });
         // console.log(data);
         // asyncResults(data);
