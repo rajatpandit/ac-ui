@@ -46,9 +46,8 @@ const products = (req, res) => {
         .then(hits => {
             let data = [];
             hits.suggest.nameSuggester[0].options.forEach(element => {
-                // data.push(element.text);
                 data.push({
-                    name: element.text,
+                    name: element._source.name,
                     image: element._source.image,
                     price: element._source.price
                 });
