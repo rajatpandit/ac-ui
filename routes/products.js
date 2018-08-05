@@ -48,8 +48,7 @@ const products = (req, res) => {
             hits.suggest.nameSuggester[0].options.forEach(element => {
                 data.push({
                     name: element._source.name,
-                    image: element._source.image,
-                    price: element._source.price
+                    image: element._source.image
                 });
             });
             console.log(`${data.length} results extracted for the term "${txt}"`);

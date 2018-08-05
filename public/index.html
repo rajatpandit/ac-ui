@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.8.8/dist/protobuf.min.js"></script>
-  <script src="/js/typeahead.bundle.min.js"></script>
+  <script src="/js/typeahead.jquery.js"></script>
 
 
 </head>
@@ -72,9 +72,11 @@ var Products; // TODO global variables are evil, hack to avoid having to load pr
   source: function(query, syncResults, asyncResults) {
       term = query;
       $.get({
-          url: '/api/acbuff?txt=' + query
+          url: '/api/acbuff?txt=' + query,
+          contentType: 'arraybuffer'
         }, function(data) {
         // could totally be optimised so that it doesn't run everytime
+        console.log(Products.decode(data.data));
         asyncResults(Products.decode(data.data).products);
       });
   }
@@ -94,5 +96,6 @@ var Products; // TODO global variables are evil, hack to avoid having to load pr
 })();
 
  </script>
+
 </body>
 </html>

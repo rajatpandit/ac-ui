@@ -86,7 +86,8 @@ const products = (req, res) => {
                     }));
                 });
                 // Encode a message to an Uint8Array (browser) or Buffer (node)
-                const buff = Products.encode(products).finish();
+                console.log(products);
+                const buff = Products.encode(products.toJSON()).finish();
                 console.log(`${hits.suggest.nameSuggester[0].options.length} results extracted for the term "${txt}"`);
                 return res.json(buff);
             });
