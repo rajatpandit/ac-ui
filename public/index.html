@@ -79,15 +79,20 @@ body {
 
 </head>
 <body>
- <h1>Product Search</h1>
-
- <div id="remote">
+ <h1>Product Search (JSON Based)</h1>
+ <div id="remote-js">
         <input class="typeahead" type="text" placeholder="Start typing product names">
  </div>
+
+ <h1>Product Search (Protocol Buffer Based)</h1>
+ <div id="remote-pb">
+    <input class="typeahead" type="text" placeholder="Start typing product names">
+</div>
+
  
  <script>
  var term = '';// global variables are evil
- $('#remote .typeahead').typeahead(null, {
+ $('#remote-js .typeahead').typeahead(null, {
   name: 'product-rec',
   display: 'name',
   templates: {
@@ -104,6 +109,33 @@ body {
   source: function(query, syncResults, asyncResults) {
       term = query;
       $.get('/api/ac?txt=' + query, function(data) {
+          console.log(data);
+          asyncResults(data);
+      });
+  }
+})
+.on('typeahead:select', function(e, obj) {
+    console.log(term);
+    console.log(obj);
+});
+
+ $('#remote-pb .typeahead').typeahead(null, {
+  name: 'product-rec',
+  display: 'name',
+  templates: {
+      suggestion: function(data) {
+          return `<div><img src="${data.image}" class="img"/>${data.name}</div>`;
+      },
+      pending: function() {
+          return '<div>Loading...</div>';
+      },
+      notFound: function() {
+          return '<div>No results found</div>';
+      }
+  },
+  source: function(query, syncResults, asyncResults) {
+      term = query;
+      $.get('/api/acbuff?txt=' + query, function(data) {
           console.log(data);
           asyncResults(data);
       });
