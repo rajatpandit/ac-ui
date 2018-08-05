@@ -6,7 +6,7 @@ const es = elasticsearch.Client({
     // log: 'trace'
 })
 
-const protoPath = path.join(__dirname, '/..' + '/proto/' + 'product.proto');
+const protoPath = path.join(__dirname, '/..' + '/public/js/' + 'product.proto');
 // Reference code for future use
 // ProtoBuf.load(protoPath, (err, root) => {
 //     if (err) 
