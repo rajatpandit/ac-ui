@@ -52,7 +52,9 @@
     console.log(term);
     console.log(obj);
 });
+ 
 
+var Products; // TODO global variables are evil, hack to avoid having to load proto file for each request
  $('#remote-pb .typeahead').typeahead(null, {
   name: 'product-rec',
   display: 'name',
@@ -72,17 +74,8 @@
       $.get({
           url: '/api/acbuff?txt=' + query
         }, function(data) {
-        protobuf.load('/js/product.proto', function(err,root) {
-            if (err) {
-                console.log(err);
-            }
-            var Products = root.lookupType('AC.Products');
-            console.log(Products.decode(data.data).products);
-            asyncResults(Products.decode(data.data).products);
-
-        });
-        // console.log(data);
-        // asyncResults(data);
+        // could totally be optimised so that it doesn't run everytime
+        asyncResults(Products.decode(data.data).products);
       });
   }
 })
@@ -91,9 +84,14 @@
     console.log(obj);
 });
 
-
-
-
+(function() {
+    protobuf.load('/js/product.proto', function(err, root) {
+        if (err) {
+            console.log(err);
+        }
+        Products = root.lookupType('AC.Products');
+    })
+})();
 
  </script>
 </body>
