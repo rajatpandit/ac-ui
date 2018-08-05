@@ -6,20 +6,72 @@
   <title>jQuery UI Autocomplete - Remote with caching</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">  
   <style>
-    body {
-        font-family: 'Roboto Slab', serif !important;
-    }
-      .img {
-          height: 32px;
-          width: 32px;
-          margin-right: 10px;
-      }
-      .typeahead {
-          width:100%;
-          font-size: 2em;
-          font-family: 'Roboto Slab', serif !important;          
-          padding:5px;
-      }
+body {
+	font-family: 'Roboto Slab', serif !important;
+}
+
+.img {
+	height: 32px;
+	width: 32px;
+	margin-right: 10px;
+}
+.typeahead,
+.tt-query,
+.tt-hint {
+	border: 2px solid #CCCCCC;
+	border-radius: 8px 8px 8px 8px;
+	font-size: 24px;
+	height: 30px;
+	line-height: 30px;
+	outline: medium none;
+	padding: 8px 12px;
+	width: 800px;
+}
+
+.typeahead {
+	background-color: #FFFFFF;
+}
+
+.typeahead:focus {
+	border: 2px solid #0097CF;
+}
+
+.tt-query {
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.tt-hint {
+	color: #999999;
+}
+
+.tt-dropdown-menu {
+	background-color: #FFFFFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 8px 8px 8px 8px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	margin-top: 12px;
+	padding: 8px 0;
+	width: 422px;
+}
+
+.tt-suggestion {
+	font-size: 18px;
+	line-height: 24px;
+    padding: 3px 20px;
+    background-color:#f2f2f2;
+    box-shadow: 2px 2px #ddd;
+
+}
+
+.tt-suggestion.tt-cursor {
+	background-color: #0097CF;
+	color: #FFFFFF;
+}
+
+.tt-suggestion p {
+	margin: 0;
+}
+
   </style>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="/js/typeahead.bundle.min.js"></script>
@@ -35,11 +87,16 @@
  <script>
  $('#remote .typeahead').typeahead(null, {
   name: 'product-rec',
-  highlight: true,
-  // display: 'name',
+  display: 'name',
   templates: {
       suggestion: function(data) {
-          return `<div><img src="${data.image}" class="img"/> ${data.name}</div>`;
+          return `<div><img src="${data.image}" class="img"/>${data.name}</div>`;
+      },
+      pending: function() {
+          return '<div>Loading...</div>';
+      },
+      notFound: function() {
+          return '<div>No results found</div>';
       }
   },
   source: function(query, syncResults, asyncResults) {
