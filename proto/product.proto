@@ -1,3 +1,10 @@
+package AC;
+syntax = "proto3";
+
+message Products {
+    repeated Product products = 1;
+}
+
 message Product {
     required string name = 1;
     required string image = 2;

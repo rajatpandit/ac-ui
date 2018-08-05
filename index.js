@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 // load the route files
 const products = require(__dirname + '/routes/products');
-const product = require(__dirname + '/routes/product');
+const productsBuff = require(__dirname + '/routes/products-pbuff');
 const app = express();
 
 // to get the data sent to it via JSON
@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
     res.json({message: 'Hello World'});
 })
 router.get('/ac', products);
+router.get('/acbuff',productsBuff);
 
 /* Configure the router */
 app.use('/api', router);
