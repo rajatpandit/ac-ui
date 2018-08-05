@@ -1,0 +1,5 @@
+message Product {
+    required string name = 1;
+    required string image = 2;
+    required float price = 3;
+}

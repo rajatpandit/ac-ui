@@ -13,7 +13,8 @@ body {
 .img {
 	height: 32px;
 	width: 32px;
-	margin-right: 10px;
+    margin-right: 10px;
+    vertical-align: text-top;
 }
 .typeahead,
 .tt-query,
@@ -85,6 +86,7 @@ body {
  </div>
  
  <script>
+ var term = '';// global variables are evil
  $('#remote .typeahead').typeahead(null, {
   name: 'product-rec',
   display: 'name',
@@ -100,11 +102,16 @@ body {
       }
   },
   source: function(query, syncResults, asyncResults) {
+      term = query;
       $.get('/api/ac?txt=' + query, function(data) {
           console.log(data);
           asyncResults(data);
       });
   }
+})
+.on('typeahead:select', function(e, obj) {
+    console.log(term);
+    console.log(obj);
 });
  </script>
 </body>
